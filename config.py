@@ -1,7 +1,7 @@
 DEBUG = True
 
 USERNAME = 'jmnd1'
-PASSWORD = 'a1h2q4v1'
+PASSWORD = 'A1h2q4v1'
 SERVER = 'localhost'
 DB = 'gerenciamento_contas'
 
