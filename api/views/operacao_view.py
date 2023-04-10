@@ -2,7 +2,7 @@ from flask_restful import Resource
 from ..schemas import operacao_schema
 from flask import request, make_response, jsonify
 from ..entidades import operacao
-from ..services import operacao_service
+from ..services import operacao_service, conta_service
 from api import api
 
 
@@ -22,42 +22,51 @@ class OperacaoList(Resource):
             resumo = request.json["resumo"]
             custo = request.json["custo"]
             tipo = request.json["tipo"]
-            operacao_nova = operacao.Operacao(nome=nome, resumo=resumo, custo=custo, tipo=tipo)
-            resultado = operacao_service.cadastrar_operacao(operacao_nova)
-            return make_response(os.jsonify(resultado), 201)
+            conta = request.json["conta"]
+            if conta_service.listar_conta_id(conta) is None:
+                return make_response("Conta não existe", 404)
+            else:
+                operacao_nova = operacao.Operacao(nome=nome, resumo=resumo, custo=custo, tipo=tipo, conta=conta)
+                resultado = operacao_service.cadastrar_operacao(operacao_nova)
+                return make_response(os.jsonify(resultado), 201)
 
-# class OperacaoDetail(Resource):
-#     def get(self,id):
-#         conta = operacao_service.listar_conta_id(id)
-#         if conta is None:
-#             return make_response(jsonify("Conta não encontrada"), 404)
-#         cs =operacao_schema.ContaSchema()
-#         return make_response(cs.jsonify(conta), 200)
+class OperacaoDetail(Resource):
+    def get(self,id):
+        operacao = operacao_service.listar_operacoes_id(id)
+        if operacao is None:
+            return make_response(jsonify("Operação não encontrada"), 404)
+        os = operacao_schema.OperacaoSchema()
+        return make_response(os.jsonify(operacao), 200)
 
-#     def put(self, id):
-#         conta_bd = operacao_service.listar_conta_id(id)
-#         if conta_bd is None:
-#             return make_response(jsonify("Conta não encontrada"), 404)
+    def put(self, id):
+        operacao_bd = operacao_service.listar_operacoes_id(id)
+        if operacao_bd is None:
+            return make_response(jsonify("Operação não encontrada"), 404)
 
-#         cs = operacao_schema.ContaSchema()
-#         validate = cs.validate(request.json)
-#         if validate:
-#             return make_response(jsonify(validate), 404)
-#         else:
-#             nome = request.json["nome"]
-#             resumo = request.json["resumo"]
-#             custo = request.json["valor"]
-#             tipo = request.json["tipo"]
-#             nova_conta = operacao.Operacao(nome=nome, resumo=resumo, custo=custo, tipo=tipo)
-#             resultado = operacao_service.atualizar_conta(conta_bd, nova_conta)
-#             return make_response(cs.jsonify(resultado), 201)
+        os = operacao_schema.OperacaoSchema()
+        validate = os.validate(request.json)
+        if validate:
+            return make_response(jsonify(validate), 404)
+        else:
+            nome = request.json["nome"]
+            resumo = request.json["resumo"]
+            custo = request.json["custo"]
+            tipo = request.json["tipo"]
+            conta = request.json["conta"]
+            if conta_service.listar_conta_id(conta) is None:
+                return make_response("Conta não existe", 404)
+            else:
+                nova_operacao = operacao.Operacao(nome=nome, resumo=resumo, custo=custo, tipo=tipo, conta=conta)
+                resultado = operacao_service.atualizar_operacao(operacao_bd, nova_operacao)
+                return make_response(os.jsonify(resultado), 201)
     
-#     def delete(self,id):
-#         conta = operacao_service.listar_conta_id(id)
-#         if conta is None:
-#             return make_response(jsonify("Conta não encontrada"), 404)
-#         operacao_service.exclui_conta(conta)
-#         return make_response(jsonify(""), 204)
+    def delete(self,id):
+        operacao_ = operacao_service.listar_operacoes_id(id)
+        if operacao_ is None:
+            return make_response(jsonify("Operação não encontrada"), 404)
+        operacao_service.excluir_operacao(operacao_)
+        return make_response(jsonify(""), 204)
 
 
 api.add_resource(OperacaoList, '/operacoes')
+api.add_resource(OperacaoDetail, '/operacoes/<int:id>')

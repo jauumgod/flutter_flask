@@ -12,3 +12,5 @@ class Operacao(db.Model):
     resumo = db.Column(db.String(150), nullable=False)
     custo = db.Column(db.Float, nullable=False)
     tipo = db.Column(db.Enum(TipoEnum), nullable=False)
+
+    conta_id = db.Column(db.Integer, db.ForeignKey("conta.id"))
