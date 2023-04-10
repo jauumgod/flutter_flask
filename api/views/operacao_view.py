@@ -23,7 +23,6 @@ class OperacaoList(Resource):
             custo = request.json["custo"]
             tipo = request.json["tipo"]
             operacao_nova = operacao.Operacao(nome=nome, resumo=resumo, custo=custo, tipo=tipo)
-
             resultado = operacao_service.cadastrar_operacao(operacao_nova)
             return make_response(os.jsonify(resultado), 201)
 

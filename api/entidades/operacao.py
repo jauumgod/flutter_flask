@@ -2,7 +2,7 @@ class Operacao():
     def __init__(self, nome, resumo, custo, tipo):
         self.__nome = nome
         self.__resumo = resumo
-        self.__valor = custo
+        self.__custo = custo
         self.__tipo = tipo
 
     @property
@@ -22,12 +22,12 @@ class Operacao():
         self.__resumo = resumo
 
     @property
-    def valor(self):
-        return self.__valor
+    def custo(self):
+        return self.__custo
 
-    @valor.setter
-    def valor(self, valor):
-        self.__valor = valor
+    @custo.setter
+    def custo(self, custo):
+        self.__custo = custo
 
     @property
     def tipo(self):
