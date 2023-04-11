@@ -1,6 +1,7 @@
 from api import db
 from ..models import conta_model
 
+
 def listar_contas():
     contas = conta_model.Conta.query.all()
     return contas
@@ -27,3 +28,29 @@ def exclui_conta(conta):
     db.session.delete(conta)
     db.session.commit()
 
+
+def alterar_saldo_conta(conta_id, operacao, tipo_funcao, valor_antigo=None):
+    #tipo_function == 1 -> cadastro de operacao
+    #tipo_function == 2 -> atualização de operacao
+    #tipo_function == 3 -> remove operacao
+    conta = listar_conta_id(conta_id)
+    if tipo_funcao == 1:
+        if operacao.tipo == "entrada":
+            conta.valor += operacao.custo
+        else:
+            conta.valor -= operacao.custo
+
+    elif tipo_funcao == 2:
+        if operacao.tipo == "entrada":
+            conta.valor -= valor_antigo
+            conta.valor += operacao.custo
+        else:
+            conta.valor += valor_antigo
+            conta.valor -= operacao.custo
+    else:
+        if operacao.tipo.value == "entrada":
+            conta.valor -= operacao.custo
+        else:
+            conta.valor += operacao.custo
+
+    db.session.commit()

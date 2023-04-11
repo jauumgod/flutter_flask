@@ -22,7 +22,7 @@ class OperacaoList(Resource):
             resumo = request.json["resumo"]
             custo = request.json["custo"]
             tipo = request.json["tipo"]
-            conta = request.json["conta"]
+            conta = request.json["conta_id"]
             if conta_service.listar_conta_id(conta) is None:
                 return make_response("Conta não existe", 404)
             else:
@@ -52,7 +52,8 @@ class OperacaoDetail(Resource):
             resumo = request.json["resumo"]
             custo = request.json["custo"]
             tipo = request.json["tipo"]
-            conta = request.json["conta"]
+            conta = request.json["conta_id"]
+
             if conta_service.listar_conta_id(conta) is None:
                 return make_response("Conta não existe", 404)
             else:
