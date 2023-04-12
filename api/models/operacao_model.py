@@ -14,4 +14,4 @@ class Operacao(db.Model):
     tipo = db.Column(db.Enum(TipoEnum), nullable=False)
 
     conta_id = db.Column(db.Integer, db.ForeignKey("conta.id"))
-    conta = db.relationship("Conta", backref=db.backref("operacoes"), lazy="dynamic")
+    conta = db.relationship("Conta", backref=db.backref("operacoes", lazy="dynamic"))
