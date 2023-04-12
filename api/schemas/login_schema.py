@@ -4,10 +4,9 @@ from marshmallow import fields
 
 
 
-class UsuarioSchema(ma.SQLAlchemyAutoSchema):
+class LoginSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = usuario_model.Usuario
-        load_instance = True
 
         nome = fields.String(required=False)
         email = fields.String(required=True)

@@ -12,3 +12,7 @@ class Usuario(db.Model):
 
     def cripto_senha(self):
         self.senha = pbkdf2_sha256.hash(self.senha)
+
+    def decripto_senha(self, senha):
+        pbkdf2_sha256.verify(senha, self.senha)
+        return senha
