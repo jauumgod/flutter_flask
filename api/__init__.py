@@ -6,6 +6,7 @@ from flask_restful import Api
 import pymysql
 from flask_jwt_extended import JWTManager
 
+
 pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
@@ -17,4 +18,4 @@ api = Api(app)
 jwt = JWTManager(app)
 
 from .models import conta_model, operacao_model, usuario_model
-from .views import conta_view, operacao_view, usuario_view
+from .views import conta_view, operacao_view, usuario_view, login_view

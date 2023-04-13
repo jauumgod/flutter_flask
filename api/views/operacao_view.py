@@ -4,9 +4,11 @@ from flask import request, make_response, jsonify
 from ..entidades import operacao
 from ..services import operacao_service, conta_service
 from api import api
+from flask_jwt_extended import jwt_required
 
 
 class OperacaoList(Resource):
+    @jwt_required()
     def get(self):
         operacoes = operacao_service.listar_operacoes()
         os = operacao_schema.OperacaoSchema(many=True)
