@@ -11,7 +11,7 @@ def listar_conta_id(id):
     return conta
 
 def cadastrar_conta(conta):
-    conta_bd = conta_model.Conta(nome=conta.nome, resumo=conta.resumo, valor=conta.valor)
+    conta_bd = conta_model.Conta(nome=conta.nome, resumo=conta.resumo, valor=conta.valor, usuario_id=conta.usuario)
     db.session.add(conta_bd)
     db.session.commit()
     return conta_bd

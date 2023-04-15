@@ -18,4 +18,4 @@ api = Api(app)
 jwt = JWTManager(app)
 
 from .models import conta_model, operacao_model, usuario_model
-from .views import conta_view, operacao_view, usuario_view, login_view
+from .views import conta_view, operacao_view, usuario_view, login_view, refresh_token_view

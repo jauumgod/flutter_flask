@@ -12,4 +12,4 @@ class ContaSchema(ma.SQLAlchemyAutoSchema):
         nome = fields.String(required=True)
         resumo = fields.String(required=True)
         valor = fields.Float(required=True)
-
+        usuario_id = fields.Integer(required=True)
