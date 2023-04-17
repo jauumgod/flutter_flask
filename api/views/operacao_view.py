@@ -4,13 +4,14 @@ from flask import request, make_response, jsonify
 from ..entidades import operacao
 from ..services import operacao_service, conta_service
 from api import api
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 class OperacaoList(Resource):
     @jwt_required()
     def get(self):
-        operacoes = operacao_service.listar_operacoes()
+        usuario_logado = get_jwt_identity()
+        operacoes = operacao_service.listar_operacoes(usuario = usuario_logado)
         os = operacao_schema.OperacaoSchema(many=True)
         return make_response(os.jsonify(operacoes), 201)
     

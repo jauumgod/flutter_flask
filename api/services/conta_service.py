@@ -2,8 +2,8 @@ from api import db
 from ..models import conta_model
 
 
-def listar_contas():
-    contas = conta_model.Conta.query.all()
+def listar_contas(usuario):
+    contas = conta_model.Conta.query.filter_by(usuario_id=usuario).all()
     return contas
 
 def listar_conta_id(id):

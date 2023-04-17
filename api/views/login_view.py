@@ -22,7 +22,7 @@ class LoginList(Resource):
             if usuario_bd and usuario_bd.decripto_senha(senha):
                 access_token = create_access_token(
                     identity=usuario_bd.id,
-                    expires_delta=timedelta(seconds=120)
+                    expires_delta=timedelta(seconds=300)
                 )
                 refresh_token = create_refresh_token(
                     identity=usuario_bd.id
