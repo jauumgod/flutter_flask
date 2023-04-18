@@ -5,6 +5,7 @@ from ..entidades import operacao
 from ..services import operacao_service, conta_service
 from api import api
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from ..decorators.autorization import user_operacao
 
 
 class OperacaoList(Resource):
@@ -34,13 +35,15 @@ class OperacaoList(Resource):
                 return make_response(os.jsonify(resultado), 201)
 
 class OperacaoDetail(Resource):
+    @user_operacao
     def get(self,id):
         operacao = operacao_service.listar_operacoes_id(id)
         if operacao is None:
             return make_response(jsonify("Operação não encontrada"), 404)
         os = operacao_schema.OperacaoSchema()
         return make_response(os.jsonify(operacao), 200)
-
+    
+    @user_operacao
     def put(self, id):
         operacao_bd = operacao_service.listar_operacoes_id(id)
         if operacao_bd is None:
@@ -63,7 +66,8 @@ class OperacaoDetail(Resource):
                 nova_operacao = operacao.Operacao(nome=nome, resumo=resumo, custo=custo, tipo=tipo, conta=conta)
                 resultado = operacao_service.atualizar_operacao(operacao_bd, nova_operacao)
                 return make_response(os.jsonify(resultado), 201)
-    
+            
+    @user_operacao
     def delete(self,id):
         operacao_ = operacao_service.listar_operacoes_id(id)
         if operacao_ is None:
